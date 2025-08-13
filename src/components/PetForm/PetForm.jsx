@@ -1,16 +1,30 @@
 import { useState } from "react"
+import axios from "axios"
 
 const PetForm = () => {
-    const [formData, setFormData] = useState({})
-    
+    const [formData, setFormData] = useState({
+        name: '',
+        age: '',
+        breed: ''
+    })
+
     const handleChange = (event) => {
-        setFormData({...formData, [event.target.name]: event.target.value})
+        setFormData({ ...formData, [event.target.name]: event.target.value })
     }
-    
-    return(
+
+    const handleSubmit = async () => {
+        //console.log formData
+        const url = `${import.meta.env.VITE_BACKEND_URL}/pets/new`
+        const response = await axios.post(url, formData)
+        console.log(response)
+    }
+
+    return (
         <div>
             <h2>Add Your Pet</h2>
-            <form>
+            <form
+                onSubmit={handleSubmit}
+            >
                 <label htmlFor="name">Name</label>
                 <input
                     id="name"
@@ -32,7 +46,7 @@ const PetForm = () => {
                     onChange={handleChange}
                     value={formData.breed}
                 />
-                
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
