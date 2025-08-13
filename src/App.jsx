@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
+import { ClipLoader } from 'react-spinners'
+
+import PetForm from './components/PetForm/PetForm'
+
 const App = () => {
 
   const [pets, setPets] = useState([])
@@ -29,9 +33,12 @@ const App = () => {
               return <p>{pet.name}</p>
             })
             :
-            <p>Loading Pets</p>
+            <ClipLoader
+              color='#FF00FF'
+            />
         }
       </ol>
+      <PetForm />
     </>
   )
 }
