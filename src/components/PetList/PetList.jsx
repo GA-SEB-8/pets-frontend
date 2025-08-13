@@ -31,7 +31,10 @@ const PetList = () => {
                             return (
                                 <>
                                     <p>{pet.name}</p>
-                                    <PetDeleteButton petId={pet._id}/>
+                                    <PetDeleteButton
+                                        petId={pet._id}
+                                        getAllPets={getAllPets}
+                                    />
                                 </>
                             )
                         })
