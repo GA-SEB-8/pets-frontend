@@ -4,41 +4,30 @@ import { useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 
 import PetForm from './components/PetForm/PetForm'
+import PetList from './components/PetList/PetList'
 
 const App = () => {
 
-  const [pets, setPets] = useState([])
+  const [formIsShown, setFormIsShown] = useState(false)
 
-  const getAllPets = async () => {
-    // const url = 'http://localhost:3000/pets/'
-    console.log(import.meta.env.VITE_BACKEND_URL)
-    const url = `${import.meta.env.VITE_BACKEND_URL}/pets`
-    const response = await axios.get(url)
-    console.log(response)
-    setPets(response.data)
+  const handleShowFormClick = () => {
+    console.log('show form button is clicked')
+    setFormIsShown(true)
   }
-
-  useEffect(() => {
-    getAllPets()
-  }, [])
 
   return (
     <>
       <h1>Welcome to the pets app!</h1>
-      <ol>
-        {
-          pets.length
-            ?
-            pets.map(pet => {
-              return <p>{pet.name}</p>
-            })
-            :
-            <ClipLoader
-              color='#FF00FF'
-            />
-        }
-      </ol>
-      <PetForm />
+      <button onClick={handleShowFormClick}>Add Your Pet</button>
+      {
+        formIsShown
+          ?
+          <PetForm  setFormIsShown={setFormIsShown}/>
+          :
+          <PetList />
+        // formIsShown && <PetForm />
+      }
+
     </>
   )
 }

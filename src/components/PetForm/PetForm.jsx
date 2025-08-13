@@ -1,7 +1,10 @@
 import { useState } from "react"
 import axios from "axios"
 
-const PetForm = () => {
+import { DotLoader } from "react-spinners"
+
+const PetForm = ({ setFormIsShown }) => {
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
         age: '',
@@ -9,14 +12,25 @@ const PetForm = () => {
     })
 
     const handleChange = (event) => {
+        if (event.target.name === 'age') {
+            // do something in here
+        }
         setFormData({ ...formData, [event.target.name]: event.target.value })
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        if (isSubmitting) return
+        setIsSubmitting(true)
         //console.log formData
         const url = `${import.meta.env.VITE_BACKEND_URL}/pets/new`
         const response = await axios.post(url, formData)
         console.log(response)
+        if (response.status === 201) {
+            setFormIsShown(false)
+        }
+        setIsSubmitting(false)
     }
 
     return (
@@ -36,6 +50,7 @@ const PetForm = () => {
                 <input
                     id="age"
                     name="age"
+                    type='number'
                     onChange={handleChange}
                     value={formData.age}
                 />
@@ -47,6 +62,13 @@ const PetForm = () => {
                     value={formData.breed}
                 />
                 <button type="submit">Submit</button>
+                {
+                    isSubmitting
+                        ?
+                        <DotLoader />
+                        :
+                        null
+                }
             </form>
         </div>
     )
