@@ -3,6 +3,8 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 
+import PetDeleteButton from './PetDeleteButton'
+
 const PetList = () => {
     const [pets, setPets] = useState([])
 
@@ -26,7 +28,12 @@ const PetList = () => {
                     pets.length
                         ?
                         pets.map(pet => {
-                            return <p>{pet.name}</p>
+                            return (
+                                <>
+                                    <p>{pet.name}</p>
+                                    <PetDeleteButton petId={pet._id}/>
+                                </>
+                            )
                         })
                         :
                         <ClipLoader

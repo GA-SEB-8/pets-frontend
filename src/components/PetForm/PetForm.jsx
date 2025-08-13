@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 
 import { DotLoader } from "react-spinners"
+import { create } from '../../../lib/api'
 
 const PetForm = ({ setFormIsShown }) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -24,8 +25,8 @@ const PetForm = ({ setFormIsShown }) => {
         if (isSubmitting) return
         setIsSubmitting(true)
         //console.log formData
-        const url = `${import.meta.env.VITE_BACKEND_URL}/pets/new`
-        const response = await axios.post(url, formData)
+        
+        const response = await create(formData)
         console.log(response)
         if (response.status === 201) {
             setFormIsShown(false)
@@ -61,13 +62,13 @@ const PetForm = ({ setFormIsShown }) => {
                     onChange={handleChange}
                     value={formData.breed}
                 />
-                <button type="submit">Submit</button>
+
                 {
                     isSubmitting
                         ?
                         <DotLoader />
                         :
-                        null
+                        <button type="submit">Submit</button>
                 }
             </form>
         </div>
